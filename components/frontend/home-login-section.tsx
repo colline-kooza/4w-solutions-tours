@@ -10,14 +10,17 @@ export default function HomeLoginSection() {
 
         <p className="text-gray-700 mb-5 text-xs">
           Don't have an account yet?{" "}
-          <Link href="/signup" className="underline text-gray-900 hover:text-gray-700 transition-colors">
+          <Link href="/login" className="underline text-gray-900 hover:text-gray-700 transition-colors">
             Sign up
           </Link>
         </p>
 
-        <button className="w-full max-w-xs bg-black text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+       <Link href="/login">
+  <button className="w-full max-w-xs bg-black text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors">
           Log in
         </button>
+       </Link>
+      
       </div>
     </section>
   )
