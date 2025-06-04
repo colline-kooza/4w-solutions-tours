@@ -16,7 +16,7 @@ export default async function HomeLayout({
       {children}
       <Footer />
      <WhatsAppCTA
-        phoneNumber="1234567890" 
+        phoneNumber="0740302462" 
         message="Hi! I'm interested in your tours. Can you help me?"
       />
     </div>

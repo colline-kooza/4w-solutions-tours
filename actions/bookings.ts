@@ -128,7 +128,7 @@ export async function createBooking(data: BookingFormData) {
 
     await resend.emails.send({
       from: "Bookings <orders@rwoma.com>",
-      to: ["koozacollinz1@gmail.com"],
+      to: ["Ssentongomartin54@gmail.com"],
       subject: `New Booking #${orderNumber}`,
       react: await AdminNotificationEmail({ order: orderData }),
     });
