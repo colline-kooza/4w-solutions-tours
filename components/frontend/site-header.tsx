@@ -1,322 +1,365 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-  Menu,
-  Users,
-  BarChart2,
-  FileText,
-  Layout,
-  CloudUpload,
-  Edit3,
-  Database,
-  BarChart,
-  Lock,
-  ShoppingCart,
-  ShoppingBag,
-  Truck,
-  Map,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { ChevronDown } from "lucide-react";
+import * as React from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { Search, ChevronDown, Globe, HelpCircle, Heart, User, AlignRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Input } from "@/components/ui/input"
+import { usePathname } from "next/navigation"
+import { FaBlog } from "react-icons/fa"
+import { useOptimizedTourCategories } from "@/hooks/use-optimized-tour-categories"
+import { Skeleton } from "@/components/ui/skeleton"
 
-import Logo from "../global/Logo";
-import { Session } from "next-auth";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { getInitials } from "@/lib/generateInitials";
+export default function SiteHeader() {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const { scrollY } = useScroll()
+  const pathname = usePathname()
+  const { categories, isLoading: categoriesLoading } = useOptimizedTourCategories()
 
-const features = [
-  {
-    icon: Database,
-    title: "Product Catalog Management",
-    description:
-      "Create and manage products with custom attributes, SKUs, categories, pricing, and stock level settings.",
-    href: "/features/product-catalog",
-  },
-  {
-    icon: BarChart2,
-    title: "Real-time Inventory Tracking",
-    description:
-      "Monitor stock levels across multiple locations with automated alerts for low inventory and detailed history logs.",
-    href: "/features/inventory-tracking",
-  },
-  {
-    icon: Map,
-    title: "Multi-location Support",
-    description:
-      "Seamlessly manage inventory across different store locations with easy stock transfer capabilities.",
-    href: "/features/multi-location",
-  },
-  {
-    icon: Edit3,
-    title: "Stock Adjustment Tools",
-    description:
-      "Record and track inventory changes with custom reason codes, audit trails, and adjustment history.",
-    href: "/features/stock-adjustments",
-  },
-  {
-    icon: ShoppingCart,
-    title: "Sales Order Management",
-    description:
-      "Process customer orders efficiently with status tracking, customizable invoicing, and fulfillment monitoring.",
-    href: "/features/sales-orders",
-  },
-  {
-    icon: Users,
-    title: "Customer Relationship Management",
-    description:
-      "Maintain comprehensive customer profiles with segmentation, purchase history, and specialized pricing tiers.",
-    href: "/features/customer-management",
-  },
-  {
-    icon: ShoppingBag,
-    title: "Purchase Order System",
-    description:
-      "Create and track supplier orders with receiving functionality and automated reordering capabilities.",
-    href: "/features/purchase-orders",
-  },
-  {
-    icon: Truck,
-    title: "Supplier Management",
-    description:
-      "Manage supplier relationships, link products to suppliers, and track performance metrics.",
-    href: "/features/supplier-management",
-  },
-  {
-    icon: FileText,
-    title: "Comprehensive Reporting",
-    description:
-      "Generate detailed reports for inventory levels, sales performance, purchase orders, and stock forecasting.",
-    href: "/features/reporting",
-  },
-  {
-    icon: Lock,
-    title: "Role-based Access Control",
-    description:
-      "Secure user management with customizable permissions for different staff roles and responsibilities.",
-    href: "/features/user-management",
-  },
-];
+  const isActive = (path: string) => pathname === path
+  // Transform opacity based on scroll position
+  const headerBgOpacity = useTransform(scrollY, [0, 50], [0, 1])
+  const searchBarOpacity = useTransform(scrollY, [0, 50], [0, 1])
 
-export default function SiteHeader({ session }: { session: Session | null }) {
-  const [open, setOpen] = React.useState(false);
-  const [showFeatures, setShowFeatures] = React.useState(false);
+  // Control visibility of elements based on scroll
+  const [isScrolled, setIsScrolled] = React.useState(false)
+
+  React.useEffect(() => {
+    const unsubscribe = scrollY.onChange((latest) => {
+      setIsScrolled(latest > 20)
+    })
+    return () => unsubscribe()
+  }, [scrollY])
+
+  // Active link indicator
+  const ActiveIndicator = () => (
+    <span className="absolute -top-1 left-1/2 transform -translate-x-1/2 h-1 w-1 rounded-full bg-green-400"></span>
+  )
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
-      <div className="container max-w-7xl mx-auto flex h-14 items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Logo />
-          <NavigationMenu className="hidden md:flex">
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                    Home
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
+    <header className="sticky top-0 z-50 w-full">
+      <motion.div
+        className="relative w-full transition-all duration-300"
+        style={{
+          backgroundColor: "white",
+          boxShadow: isScrolled ? "0 2px 4px rgba(0,0,0,0.1)" : "none",
+        }}
+      >
+        {/* Main header */}
+        <div className="container max-w-6xl mx-auto md:px-4 px-1">
+          <div className="flex h-16 items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/images/loggo.png"
+                  alt="Tripadvisor"
+                  width={350}
+                  height={340}
+                  className="h-48 w-48 object-contain"
+                />
+              </Link>
+            </div>
 
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Features</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="w-[800px] p-4">
-                    <div className="flex items-center justify-between mb-4 pb-2 border-b">
-                      <h4 className="text-lg font-medium">Features</h4>
+            {/* Main Navigation - Centered on desktop */}
+            <nav className="hidden md:flex items-center justify-center space-x-11 flex-1 ml-8">
+              <Link
+                href="/"
+                className={`text-base  hover:text-green-600 transition-colors relative font-semibold ${
+                  isActive("/") ? "text-green-600 font-bold" : ""
+                }`}
+              >
+                Discover
+                {/* <ActiveIndicator /> */}
+              </Link>
+              <Link
+                href="/trips"
+                className={`text-base  hover:text-green-600 transition-colors relative font-semibold ${
+                  isActive("/trips") ? "text-green-600 font-bold" : ""
+                }`}
+              >
+                Trips
+                {/* <ActiveIndicator /> */}
+              </Link>
+
+              <Link
+                href="/about-us"
+                className={`text-base relative font-semibold hover:text-green-600 transition-colors ${
+                  isActive("/about-us") ? "text-green-600 font-bold" : ""
+                }`}
+              >
+                About us
+              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center text-sm font-bold text-gray-800 hover:text-black group">
+                  More
+                  <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  <span className="absolute bottom-[-4px] left-0 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 p-0 rounded-lg shadow-lg border border-gray-200">
+                  <DropdownMenuItem className="flex items-center py-3 px-4 cursor-pointer hover:bg-gray-50">
+                    <Link href="/login" className="flex items-center w-full">
+                      <div className="mr-3 text-gray-600">
+                        <User className="h-5 w-5" />
+                      </div>
+                      <span className="font-medium">Log in / Sign up</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem className="flex items-center py-3 px-4 cursor-pointer hover:bg-gray-50">
+                    <Link href="/blogs" className="flex items-center w-full">
+                      <div className="mr-3 text-gray-600">
+                        <FaBlog className="h-5 w-5" />
+                      </div>
+                      <span className="font-medium">Blogs</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex items-center py-3 px-4 cursor-pointer hover:bg-gray-50">
+                    <Link href="/wishlist" className="flex items-center w-full">
+                      <div className="mr-3 text-gray-600">
+                        <Heart className="h-5 w-5" />
+                      </div>
+                      <span className="font-medium">Wishlists</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="p-0">
+                    <Link
+                      href="https://wa.me/0700000"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center py-3 px-4 w-full hover:bg-gray-50"
+                    >
+                      <div className="mr-3 text-gray-600">
+                        <HelpCircle className="h-5 w-5" />
+                      </div>
+                      <span className="font-medium">Help</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </nav>
+
+            {/* Right side menu items */}
+            <div className="hidden md:flex items-center space-x-2">
+              {/* Search Input - Only when scrolled */}
+              <motion.div
+                className="relative max-w-md"
+                style={{ opacity: searchBarOpacity }}
+                initial={{ opacity: 0, width: 0 }}
+                animate={{
+                  width: isScrolled ? "240px" : "0px",
+                  opacity: isScrolled ? 1 : 0,
+                }}
+              >
+                {isScrolled && (
+                  <div className="relative w-full">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                    <Input
+                      type="search"
+                      placeholder="Search"
+                      className="w-full h-9 rounded-full pl-10 pr-4 bg-gray-100 border-none focus-visible:ring-1 focus-visible:ring-green-500 focus-visible:ring-offset-0"
+                    />
+                  </div>
+                )}
+              </motion.div>
+
+              <Button variant="ghost" size="icon" className="rounded-full hover:bg-gray-100 cursor-not-allowed">
+                <Globe className="h-5 w-5" />
+              </Button>
+              <Button variant="ghost" className=" px-2 font-bold cursor-not-allowed">
+                USD
+              </Button>
+
+              <Button className="rounded-full bg-black text-white hover:bg-black/90 px-4 hover:bg-green-900" asChild>
+                <Link href="/login">Sign in</Link>
+              </Button>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden flex items-center">
+              {/* Mobile search button */}
+              <Button variant="ghost" size="icon" className="rounded-full mr-1">
+                <Search className="h-8 w-8 text-lg" />
+              </Button>
+
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" className="w-14 h-14">
+                    <AlignRight className="h-8 w-8 text-xl" />
+                  </Button>
+                </SheetTrigger>
+
+                <SheetContent side="left" className="w-full p-0">
+                  <SheetHeader className="border-b p-4">
+                    <SheetTitle className="text-left">
+                      <Image
+                        src="/images/loggo.png"
+                        alt="Tripadvisor"
+                        width={250}
+                        height={250}
+                        className="h-8 w-40 object-cover"
+                      />
+                    </SheetTitle>
+                  </SheetHeader>
+                  <div className="flex flex-col py-4">
+                    <Link
+                      href="/"
+                      className="px-4 py-2 text-lg font-semibold hover:bg-gray-100"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Discover
+                    </Link>
+                    <Link
+                      href="/trips"
+                      className="px-4 py-2 text-lg font-medium hover:bg-gray-100"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Trips
+                    </Link>
+
+                    <Link
+                      href="/about-us"
+                      className={`px-4 py-2 text-lg font-medium hover:bg-gray-100 ${
+                        isActive("/about-us") ? "text-green-600 font-bold" : ""
+                      }`}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      About us
+                    </Link>
+
+                    {/* Tour Categories Section */}
+                    <div className="px-4 py-2 border-t mt-2">
+                      <h3 className="text-sm font-semibold text-muted-foreground mb-2">Tour Categories</h3>
+                      {categoriesLoading ? (
+                        <div className="space-y-2">
+                          {Array.from({ length: 4 }).map((_, index) => (
+                            <Skeleton key={index} className="h-6 w-32 rounded" />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="space-y-1">
+                          {categories.map((category) => (
+                            <Link
+                              key={category.id}
+                              href={`/categories/${category.slug}`}
+                              className="block py-2 text-base hover:text-green-600"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {category.title}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="px-4 py-2 border-t mt-2">
+                      <h3 className="text-sm font-semibold text-muted-foreground mb-2">More</h3>
                       <Link
-                        href="/features"
-                        className="text-sm text-blue-500 hover:underline"
+                        href="/wishlist"
+                        className="block py-2 text-base hover:text-green-600"
+                        onClick={() => setIsOpen(false)}
                       >
-                        View all
+                        Wishlist
+                      </Link>
+                      <Link
+                        href="/blogs"
+                        className="block py-2 text-base hover:text-green-600"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Blogs
+                      </Link>
+                      <Link
+                        href="https://wa.me/0700000"
+                        className="block py-2 text-base hover:text-green-600"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Help
+                      </Link>
+                      <Link
+                        href="/login"
+                        className="block py-2 text-base hover:text-green-600"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Login/Signup
                       </Link>
                     </div>
-                    <div className="grid gap-4 md:grid-cols-3 ">
-                      {features.map((feature, index) => (
-                        <Link
-                          key={index}
-                          href={`/feature/${feature.title
-                            .toLowerCase()
-                            .replace(/\s+/g, "-")}`}
-                          className="block group"
-                        >
-                          <div className="flex items-start gap-4">
-                            <div className="p-2 bg-muted rounded-md group-hover:bg-muted/80">
-                              <feature.icon className="h-6 w-6 text-blue-500" />
-                            </div>
-                            <div>
-                              <h5 className="font-medium mb-1 group-hover:text-blue-500">
-                                {feature.title}
-                              </h5>
-                              <p className="text-sm text-muted-foreground line-clamp-2">
-                                {feature.description}
-                              </p>
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                    <div className="mt-6 pt-4 border-t">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-medium mb-1">Get started</h4>
-                          <p className="text-sm text-muted-foreground">
-                            Am really excited for all these features out of the
-                            box
-                          </p>
-                        </div>
-                        <Button asChild variant="secondary">
-                          <Link
-                            target="_blank"
-                            href="https://coding-school-typescript.vercel.app/give-away"
-                          >
-                            Get started
-                          </Link>
+                    <div className="px-4 py-2 border-t mt-2 cursor-not-allowed">
+                      <div className="flex items-center justify-between py-2">
+                        <span className="text-sm font-medium">Currency</span>
+                        <Button variant="ghost" size="sm">
+                          USD
                         </Button>
                       </div>
                     </div>
                   </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <Link href="/#pricing" legacyBehavior passHref>
-                  <NavigationMenuLink className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                    Pricing
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-        {session ? (
-          <Button asChild variant={"ghost"}>
-            <Link href="/dashboard">
-              <Avatar>
-                <AvatarImage
-                  src={session?.user?.image ?? ""}
-                  alt={session?.user?.name ?? ""}
-                />
-                <AvatarFallback>
-                  {getInitials(session?.user?.name)}
-                </AvatarFallback>
-              </Avatar>
-              <span className="ml-3">Dashboard</span>
-            </Link>
-          </Button>
-        ) : (
-          <div className="hidden md:flex items-center space-x-4">
-            <Button asChild variant="ghost">
-              <Link href={"/login"}>Log in</Link>
-            </Button>
-            <Button>
-              <Link href="/register">Signup</Link>
-            </Button>
-          </div>
-        )}
-
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-full p-0">
-            <SheetHeader className="border-b p-4">
-              <SheetTitle className="text-left">Navigation</SheetTitle>
-            </SheetHeader>
-            <div className="flex flex-col py-4">
-              <Link
-                href="/"
-                className="px-4 py-2 text-lg font-medium hover:bg-accent"
-                onClick={() => setOpen(false)}
-              >
-                Home
-              </Link>
-              <button
-                className="flex items-center justify-between px-4 py-2 text-lg font-medium hover:bg-accent text-left"
-                onClick={() => setShowFeatures(!showFeatures)}
-              >
-                Features
-                <ChevronDown
-                  className={cn(
-                    "h-5 w-5 transition-transform",
-                    showFeatures && "rotate-180"
-                  )}
-                />
-              </button>
-              {showFeatures && (
-                <div className="px-4 py-2 space-y-4">
-                  {features.map((feature, index) => (
-                    <Link
-                      key={index}
-                      href={`/feature/${feature.title
-                        .toLowerCase()
-                        .replace(/\s+/g, "-")}`}
-                      className="flex items-start gap-4 py-2"
-                      onClick={() => setOpen(false)}
-                    >
-                      <div className="p-2 bg-muted rounded-md">
-                        <feature.icon className="h-6 w-6 text-blue-500" />
-                      </div>
-                      <div>
-                        <h5 className="font-medium mb-1">{feature.title}</h5>
-                        <p className="text-sm text-muted-foreground">
-                          {feature.description}
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
-              <Link
-                href="/#pricing"
-                className="px-4 py-2 text-lg font-medium hover:bg-accent"
-                onClick={() => setOpen(false)}
-              >
-                Pricing
-              </Link>
-              <Link
-                href="/how-it-works"
-                className="px-4 py-2 text-lg font-medium hover:bg-accent"
-                onClick={() => setOpen(false)}
-              >
-                How it works
-              </Link>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-background">
+                    <Button className="w-full rounded-full bg-black text-white hover:bg-black/90">
+                      <Link href="/login">Sign in</Link>
+                    </Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-background">
-              <div className="grid gap-2">
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => setOpen(false)}
-                >
-                  Log in
-                </Button>
-                <Button className="w-full" onClick={() => setOpen(false)}>
-                  Sign up
-                </Button>
+          </div>
+        </div>
+
+        {/* Sub navigation - shows when scrolled */}
+        <motion.div
+          className="border-t"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{
+            height: isScrolled ? "auto" : 0,
+            opacity: isScrolled ? 1 : 0,
+          }}
+          style={{
+            display: isScrolled ? "block" : "none",
+            transition: "opacity 0.3s ease-in-out",
+          }}
+        >
+          {isScrolled && (
+            <div className="container max-w-5xl mx-auto px-4">
+              <div className="flex items-center space-x-8 overflow-x-auto md:py-5 scrollbar-hide py-3">
+                {categoriesLoading ? (
+                  <>
+                    {Array.from({ length: 6 }).map((_, index) => (
+                      <Skeleton key={index} className="h-4 w-20 rounded" />
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {categories.map((category) => (
+                      <Link
+                        key={category.id}
+                        href={`/categories/${category.slug}`}
+                        className="text-sm whitespace-nowrap hover:text-green-600 transition-colors font-medium"
+                      >
+                        {category.title}
+                      </Link>
+                    ))}
+                    {/* Keep some static links if needed */}
+                    {/* <Link
+                      href="/hotels"
+                      className="text-sm whitespace-nowrap hover:text-green-600 transition-colors font-medium"
+                    >
+                      Hotels
+                    </Link>
+                    <Link
+                      href="/restaurants"
+                      className="text-sm whitespace-nowrap hover:text-green-600 transition-colors font-medium"
+                    >
+                      Restaurants
+                    </Link> */}
+                  </>
+                )}
               </div>
             </div>
-          </SheetContent>
-        </Sheet>
-      </div>
+          )}
+        </motion.div>
+      </motion.div>
     </header>
-  );
+  )
 }

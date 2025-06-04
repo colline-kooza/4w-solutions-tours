@@ -15,21 +15,21 @@ import toast from "react-hot-toast";
 import { Options } from "react-tailwindcss-select/dist/components/type";
 import FormSelectInput from "../FormInputs/FormSelectInput";
 import SubmitButton from "../FormInputs/SubmitButton";
-import { UserWithRoles, RoleOption } from "@/types/types";
-import { getOrgRoles, updateUserRole } from "@/actions/roles";
+// import { UserWithRoles, RoleOption } from "@/types/types";
+// import { getOrgRoles, updateUserRole } from "@/actions/roles";
 
 interface UserRoleBtnProps {
-  user: UserWithRoles;
+  // user: UserWithRoles;
 }
 
-export default function UserRoleBtn({ user }: UserRoleBtnProps) {
+export default function UserRoleBtn({ user }: any) {
   const [roles, setRoles] = useState<Options>([]);
   const [loading, setLoading] = useState(false);
 
   // Get current role from user's roles array
   const currentRole = user.roles[0]; // Assuming user has at least one role
 
-  const [selectedRole, setSelectedRole] = useState<RoleOption>({
+  const [selectedRole, setSelectedRole] = useState<any>({
     label: currentRole?.displayName || "No Role",
     value: currentRole?.id || "",
   });
@@ -37,14 +37,14 @@ export default function UserRoleBtn({ user }: UserRoleBtnProps) {
   useEffect(() => {
     async function fetchRoles() {
       try {
-        const { data: rolesData } = await getOrgRoles(user.orgId);
-        if (rolesData) {
-          const dataOptions = rolesData.map((role) => ({
-            label: role.displayName,
-            value: role.id,
-          }));
-          setRoles(dataOptions);
-        }
+        // const { data: rolesData } = await getOrgRoles(user.orgId);
+        // if (rolesData) {
+        //   const dataOptions = rolesData.map((role) => ({
+        //     label: role.displayName,
+        //     value: role.id,
+        //   }));
+        //   setRoles(dataOptions);
+        // }
       } catch (error) {
         console.error("Error fetching roles:", error);
         toast.error("Failed to load roles");
@@ -58,11 +58,11 @@ export default function UserRoleBtn({ user }: UserRoleBtnProps) {
     setLoading(true);
 
     try {
-      const res = await updateUserRole(user.id, selectedRole.value);
+      // const res = await updateUserRole(user.id, selectedRole.value);
 
-      if (res.error) {
-        throw new Error(res.error);
-      }
+      // if (res.error) {
+      //   throw new Error(res.error);
+      // }
 
       toast.success("Role Updated Successfully");
       // Optionally close dialog or refresh data

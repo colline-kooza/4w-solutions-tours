@@ -8,7 +8,7 @@ import { User as PrismaUser } from "@prisma/client";
 
 import TextInput from "../FormInputs/TextInput";
 import FormFooter from "./FormFooter";
-import { updateUserPassword } from "@/actions/users";
+// import { updateUserPassword } from "@/actions/users";
 import PasswordInput from "../FormInputs/PasswordInput";
 import { Lock, LockOpen } from "lucide-react";
 import { signOut } from "next-auth/react";
@@ -48,21 +48,21 @@ export default function ChangePasswordForm({
   async function onSubmit(data: PasswordProps) {
     setLoading(true);
     try {
-      if (editingId) {
-        const res = await updateUserPassword(editingId, data);
-        if (res?.status === 403) {
-          setPassErr(res?.error as string);
-          setLoading(false);
-          return;
-        }
-        if (res?.status === 200) {
-          setLoading(false);
-          toast.success("Password Updated Successfully!");
-          reset();
-          await signOut();
-          router.push("/login");
-        }
-      }
+      // if (editingId) {
+      //   const res = await updateUserPassword(editingId, data);
+      //   if (res?.status === 403) {
+      //     setPassErr(res?.error as string);
+      //     setLoading(false);
+      //     return;
+      //   }
+      //   if (res?.status === 200) {
+      //     setLoading(false);
+      //     toast.success("Password Updated Successfully!");
+      //     reset();
+      //     await signOut();
+      //     router.push("/login");
+      //   }
+      // }
     } catch (error) {
       setLoading(false);
       console.error("Network Error:", error);

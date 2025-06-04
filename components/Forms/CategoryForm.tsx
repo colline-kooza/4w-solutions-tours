@@ -22,7 +22,6 @@ import TextInput from "../FormInputs/TextInput";
 import TextArea from "../FormInputs/TextAreaInput";
 import ImageInput from "../FormInputs/ImageInput";
 import FormFooter from "./FormFooter";
-import { createCategory, updateCategoryById } from "@/actions/categories";
 
 export type SelectOptionProps = {
   label: string;

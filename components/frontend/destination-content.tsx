@@ -1,0 +1,311 @@
+"use client"
+
+import { useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { Facebook, Instagram, MapPin, Users, Star, Calendar, Thermometer } from "lucide-react"
+import { FaPinterest } from "react-icons/fa"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { useDestinationBySlug, useToursByDestination } from "@/hooks/use-front-destinations"
+import ReusableCarouselSection from "./ReusableCarouselSection"
+import { DestinationSkeleton } from "./destination-skeleton"
+import { transformTourToCarouselCard } from "@/hooks/use-front-tour-categories"
+
+interface DestinationContentProps {
+  destinationSlug: string
+}
+
+export function DestinationContent({ destinationSlug }: DestinationContentProps) {
+  const {
+    destination,
+    isLoading: destinationLoading,
+    isError: destinationError,
+  } = useDestinationBySlug(destinationSlug)
+  const [viewMode, setViewMode] = useState<"carousel" | "grid">("carousel")
+
+  // Only fetch tours if we have a destination
+  const { tours, isLoading: toursLoading, isError: toursError } = useToursByDestination(destination?.id || "")
+
+  if (destinationLoading) {
+    return <DestinationSkeleton />
+  }
+
+  if (destinationError || !destination) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Destination Not Found</h1>
+          <p className="text-gray-600">The destination you're looking for doesn't exist.</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Ensure each tour has the _count property before mapping
+  const carouselCards = tours
+    .map((tour: any) => ({
+      ...tour,
+      _count: tour._count || { reviews: tour.reviews ? tour.reviews.length : 0 },
+    }))
+    .map(transformTourToCarouselCard)
+
+  // Format climate for display
+  const formatClimate = (climate: string) => {
+    return climate
+      .replace(/_/g, " ")
+      .toLowerCase()
+      .replace(/\b\w/g, (c) => c.toUpperCase())
+  }
+
+  return (
+    <div className="min-h-screen bg-white overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative h-[450px] md:h-[400px] lg:h-[500px] overflow-hidden">
+        <Image
+          src={destination.images[0] || "/placeholder.svg?height=500&width=1000"}
+          alt={`${destination.name} destination`}
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="relative z-10 flex flex-col justify-center h-full p-6 md:p-10 lg:p-16 gap-10">
+          <div className="max-w-4xl">
+            <div className="flex items-center gap-2 mb-4">
+              <MapPin className="w-5 h-5 text-white/80" />
+              <span className="text-white/80 font-medium">Destination</span>
+            </div>
+            <h1 className="text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-extrabold text-white leading-tight mb-6">
+              Explore {destination.name}
+            </h1>
+            <p className="text-base md:text-lg text-white/90 font-medium mb-6 max-w-2xl">{destination.description}</p>
+            <div className="flex flex-wrap items-center md:gap-3 text-white/80">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-5 h-5" />
+                <span className="font-medium">Best Time: {destination.bestTimeToVisit}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Thermometer className="w-5 h-5" />
+                <span className="font-medium">Climate: {formatClimate(destination.climate)}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5" />
+                <span className="font-medium">{destination.tourCount} Tours Available</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-white/70 font-semibold mb-3 uppercase tracking-wider animate-pulse text-sm">
+              Follow Our Adventures
+            </p>
+            <div className="flex gap-4">
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
+                <Facebook className="w-6 h-6 text-white" />
+              </div>
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
+                <Instagram className="w-6 h-6 text-white" />
+              </div>
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
+                <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                  <div className="w-3 h-3 bg-red-500 rounded-full" />
+                </div>
+              </div>
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
+                <FaPinterest className="w-6 h-6 text-white" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Destination Info Section */}
+      <section className="bg-gray-50 py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">About {destination.name}</h2>
+              <p className="text-gray-700 mb-6">{destination.description}</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Calendar className="w-5 h-5 text-[#00c295]" />
+                    <h3 className="font-semibold">Best Time to Visit</h3>
+                  </div>
+                  <p className="text-gray-600">{destination.bestTimeToVisit}</p>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Thermometer className="w-5 h-5 text-[#00c295]" />
+                    <h3 className="font-semibold">Climate</h3>
+                  </div>
+                  <p className="text-gray-600">{formatClimate(destination.climate)}</p>
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {destination.images.slice(0, 4).map((image, index) => (
+                <div key={index} className={`rounded-lg overflow-hidden ${index === 0 ? "col-span-2" : ""}`}>
+                  <Image
+                    src={image || "/placeholder.svg?height=300&width=400"}
+                    alt={`${destination.name} image ${index + 1}`}
+                    width={400}
+                    height={300}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tours Section */}
+      <div className="container mx-auto px-4 py-16">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Tours in {destination.name}</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Discover handpicked experiences in {destination.name} that will create unforgettable memories
+          </p>
+        </div>
+
+        {/* View Toggle */}
+        <div className="flex justify-center mb-8">
+          <div className="bg-gray-100 rounded-lg p-1 flex">
+            <Button
+              variant={viewMode === "carousel" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("carousel")}
+              className="rounded-md"
+            >
+              Carousel View
+            </Button>
+            <Button
+              variant={viewMode === "grid" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("grid")}
+              className="rounded-md"
+            >
+              Grid View
+            </Button>
+          </div>
+        </div>
+
+        {/* Tours Display */}
+        {toursLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {Array(4)
+              .fill(0)
+              .map((_, i) => (
+                <Card key={i} className="border-0 shadow-lg">
+                  <CardContent className="p-0">
+                    <div className="relative">
+                      <div className="relative overflow-hidden rounded-lg">
+                        <div className="w-full h-60 bg-gray-200 animate-pulse" />
+                      </div>
+                      <div className="p-4 space-y-3">
+                        <div className="w-24 h-4 bg-gray-200 animate-pulse" />
+                        <div className="w-32 h-4 bg-gray-200 animate-pulse" />
+                        <div className="w-full h-5 bg-gray-200 animate-pulse" />
+                        <div className="w-32 h-6 bg-gray-200 animate-pulse" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+          </div>
+        ) : carouselCards.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <MapPin className="w-12 h-12 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Tours Available</h3>
+            <p className="text-gray-600">
+              We're currently working on adding amazing tours in {destination.name}. Check back soon!
+            </p>
+          </div>
+        ) : viewMode === "carousel" ? (
+          <ReusableCarouselSection
+            title=""
+            cards={carouselCards}
+            autoScrollInterval={5000}
+            showNavigation={true}
+            className="mt-0"
+          />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {carouselCards.map((card) => (
+              <Link href={`/tours/${card.slug}`} key={card.id}>
+                <Card key={card.id} className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <CardContent className="p-0">
+                    <div className="relative">
+                      <div className="relative overflow-hidden rounded-lg">
+                        <Image
+                          src={card.image || "/placeholder.svg?height=300&width=400"}
+                          alt={card.title}
+                          width={400}
+                          height={300}
+                          className="w-full h-60 object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                        {card.isLikelyToSellOut && (
+                          <Badge className="absolute top-3 left-3 bg-red-500 hover:bg-red-600 text-white text-xs font-medium px-2 py-1">
+                            Recommended
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="p-4 space-y-3">
+                        <div className="flex items-center text-sm text-gray-600">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>
+                          {card.location}
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Star className="h-4 w-4 fill-[#00c295] text-[#00c295]" />
+                          <span className="text-sm font-medium text-gray-900">
+                            {card.rating} ({card.reviewCount.toLocaleString()})
+                          </span>
+                        </div>
+                        <h3 className="text-base font-medium text-gray-900 line-clamp-2 leading-5">{card.title}</h3>
+                        <div className="pt-1">
+                          <span className="text-sm text-gray-600">from UGX </span>
+                          <span className="text-lg font-semibold text-gray-900">{card.price.toLocaleString()}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* CTA Section */}
+      <section className="bg-[#00c295] py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Explore {destination.name}?</h2>
+            <p className="text-lg mb-8">
+              Book your dream vacation today and experience the wonders of {destination.name} with our expert guides.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg" variant="secondary">
+                Browse All Tours
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border-white text-white hover:bg-white hover:text-[#00c295]"
+              >
+                Contact Us
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}

@@ -14,9 +14,10 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AuthenticatedUser } from "@/config/useAuth";
+// import { AuthenticatedUser } from "@/config/useAuth";
 import { generateSlug } from "@/lib/generateSlug";
 import { Loader2, Plus, PlusCircle } from "lucide-react";
+import { User } from "next-auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -29,7 +30,7 @@ export function BlogCreateForm({
     label: string;
     value: string;
   }[];
-  author: AuthenticatedUser | null;
+  author: User | null;
 }) {
   const [title, setTile] = useState("");
   const [err, setErr] = useState("");

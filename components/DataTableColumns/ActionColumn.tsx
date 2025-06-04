@@ -23,17 +23,20 @@ import {
 import { MoreHorizontal, Pencil, Trash } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
-import { deleteUser } from "@/actions/users";
-import { deleteUnit } from "@/actions/units";
-import { deleteBrand } from "@/actions/brands";
-import { deleteCategory } from "@/actions/categories";
+// import { deleteUser } from "@/actions/users";
+
+import { useDeleteTour } from "@/hooks/useTours";
+import { useDeleteAttraction } from "@/hooks/useAttractions";
+import { deleteUserById } from "@/actions/users";
 
 type ActionColumnProps = {
   row: any;
   model: any;
   editEndpoint: string;
   id: string | undefined;
+  deleteAction?: () => Promise<void>; 
 };
+
 export default function ActionColumn({
   row,
   model,
@@ -41,38 +44,42 @@ export default function ActionColumn({
   id = "",
 }: ActionColumnProps) {
   const isActive = row.isActive;
+    const deleteTour = useDeleteTour();
+    const attractionTour = useDeleteAttraction();
+
   async function handleDelete() {
     try {
-      if (model === "unit") {
-        const res = await deleteUnit(id);
-        if (res?.ok) {
+        if (model === "tour") {
+        await deleteTour.mutateAsync(id);
+         window.location.reload();
+        return;
+      }
+        if (model === "attraction") {
+        await attractionTour.mutateAsync(id);
+         window.location.reload();
+        return;
+      }
+
+       else if (model === "user") {
+        const res = await deleteUserById(id);
           window.location.reload();
           toast.success(`${model} Deleted Successfully`);
-        }
-      } else if (model === "user") {
-        const res = await deleteUser(id);
-        if (res?.ok) {
-          window.location.reload();
-          toast.success(`${model} Deleted Successfully`);
-        }
-      } else if (model === "brand") {
-        const res = await deleteBrand(id);
-        if (res?.ok) {
-          window.location.reload();
-          toast.success(`${model} Deleted Successfully`);
-        }
-      } else if (model === "category") {
-        const res = await deleteCategory(id);
-        if (res?.ok) {
-          window.location.reload();
-          toast.success(`${model} Deleted Successfully`);
-        }
+        
+      }  else if (model === "category") {
+        // const res = await deleteCategory(id);
+        // if (res.status === 200) {
+        //   toast.success(`${model} Deleted Successfully`);
+        //   window.location.reload();
+        // } else {
+        //   toast.error(`${model} Couldn't be deleted`);
+        // }
       }
     } catch (error) {
       console.log(error);
-      toast.error("Category Couldn't be deleted");
+      toast.error(`${model} Couldn't be deleted`);
     }
   }
+
   return (
     <div className="flex items-center">
       <AlertDialog>

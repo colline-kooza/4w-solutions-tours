@@ -3,31 +3,53 @@ import { UploadThingError } from "uploadthing/server";
 
 const f = createUploadthing();
 
-// FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
-  // Define as many FileRoutes as you like, each with a unique routeSlug
   categoryImage: f({ image: { maxFileSize: "1MB" } }).onUploadComplete(
     async ({ metadata, file }) => {
       console.log("file url", file.url);
-      return { uploadedBy: "JB" };
+      return { uploadedBy: "Collinz" };
     }
   ),
+  teamImages: f({ image: { maxFileSize: "1MB" } }).onUploadComplete(
+    async ({ metadata, file }) => {
+      console.log("file url", file.url);
+      return { uploadedBy: "Collinz" };
+    }
+  ),
+  tourImages: f({
+    image: { maxFileSize: "8MB", maxFileCount: 6 },
+  }).onUploadComplete(async ({ metadata, file }) => {
+    console.log("file url", file.url);
+    return { uploadedBy: "COLLINZ" };
+  }),
+  destinationImages: f({
+    image: { maxFileSize: "8MB", maxFileCount: 6 },
+  }).onUploadComplete(async ({ metadata, file }) => {
+    console.log("file url", file.url);
+    return { uploadedBy: "COLLINZ" };
+  }),
+  attractionImages: f({
+    image: { maxFileSize: "8MB", maxFileCount: 6 },
+  }).onUploadComplete(async ({ metadata, file }) => {
+    console.log("file url", file.url);
+    return { uploadedBy: "COLLINZ" };
+  }),
   itemImage: f({ image: { maxFileSize: "1MB" } }).onUploadComplete(
     async ({ metadata, file }) => {
       console.log("file url", file.url);
-      return { uploadedBy: "JB" };
+      return { uploadedBy: "Collinz" };
     }
   ),
   itemImages: f({
     image: { maxFileSize: "2MB", maxFileCount: 4 },
   }).onUploadComplete(async ({ metadata, file }) => {
     console.log("file url", file.url);
-    return { uploadedBy: "JB" };
+    return { uploadedBy: "Collinz" };
   }),
   blogImage: f({ image: { maxFileSize: "1MB" } }).onUploadComplete(
     async ({ metadata, file }) => {
       console.log("file url", file.url);
-      return { uploadedBy: "JB" };
+      return { uploadedBy: "Collinz" };
     }
   ),
   fileUploads: f({
@@ -53,7 +75,7 @@ export const ourFileRouter = {
     "application/zip": { maxFileSize: "1MB", maxFileCount: 4 },
   }).onUploadComplete(async ({ metadata, file }) => {
     console.log("file url", file.url);
-    return { uploadedBy: "JB" };
+    return { uploadedBy: "Collinz" };
   }),
   mailAttachments: f({
     image: { maxFileSize: "1MB", maxFileCount: 4 },
@@ -78,7 +100,7 @@ export const ourFileRouter = {
     "application/zip": { maxFileSize: "1MB", maxFileCount: 4 },
   }).onUploadComplete(async ({ metadata, file }) => {
     console.log("file url", file.url);
-    return { uploadedBy: "JB" };
+    return { uploadedBy: "Collinz" };
   }),
 } satisfies FileRouter;
 

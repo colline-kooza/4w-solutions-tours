@@ -5,12 +5,16 @@ import { getBlogCategories, getDashboardBlogs } from "@/actions/blogs";
 import BlogCategoryList from "@/components/dashboard/blogs/blog-categories";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BlogCreateForm } from "@/components/dashboard/blogs/blog-form";
-import { getAuthenticatedUser } from "@/config/useAuth";
+import { useRequireAdmin } from "@/utils/adminRoleCheck";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/config/auth";
 
 export default async function page() {
   const blogs = (await getDashboardBlogs()) || [];
   const categories = (await getBlogCategories()) || [];
-  const author = await getAuthenticatedUser();
+      const { isAdmin } = useRequireAdmin();
+    const session = await getServerSession(authOptions)
+    const author = session?.user || null;
   return (
     <div className="p-8">
       <Tabs defaultValue="blogs" className="space-y-8">

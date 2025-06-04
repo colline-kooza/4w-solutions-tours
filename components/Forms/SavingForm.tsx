@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Saving } from "@prisma/client";
+// import { Saving } from "@prisma/client";
 import { SavingProps } from "@/types/types";
 import FormHeader from "./FormHeader";
 import TextInput from "../FormInputs/TextInput";
@@ -14,7 +14,7 @@ import FormFooter from "./FormFooter";
 
 import FormSelectInput from "../FormInputs/FormSelectInput";
 import { convertIsoToDateString } from "@/lib/convertISODateToNorma";
-import { createSavings } from "@/actions/savings";
+// import { createSavings } from "@/actions/savings";
 import { convertDateToIso } from "@/lib/convertDateToIso";
 
 export type SelectOptionProps = {
@@ -23,7 +23,7 @@ export type SelectOptionProps = {
 };
 type SavingFormProps = {
   editingId?: string | undefined;
-  initialData?: Saving | undefined | null;
+  initialData?: any | undefined | null;
   members: SelectOptionProps[];
 };
 export interface Member {
@@ -126,7 +126,7 @@ export default function SavingForm({
         router.push("/dashboard/savings");
       } else {
         // console.log(data);
-        await createSavings(data);
+        // await createSavings(data);
         setLoading(false);
         // Toast
         toast.success("Successfully Created!");

@@ -1,5 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
+import { fontFamily } from "tailwindcss/defaultTheme";
+
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
@@ -23,6 +25,9 @@ export default withUt({
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      sans: ["DM Sans", ...fontFamily.sans],
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -31,8 +36,18 @@ export default withUt({
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#34e0a1", // Your new primary color
+          50: "#ecfdf6",
+          100: "#d1fae5",
+          200: "#a7f3d0",
+          300: "#6ee7b7",
+          400: "#34e0a1", // Main color
+          500: "#10b981",
+          600: "#059669",
+          700: "#047857",
+          800: "#065f46",
+          900: "#064e3b",
+          foreground: "#ffffff", // White text on primary background
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

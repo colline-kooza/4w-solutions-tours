@@ -1,151 +1,215 @@
 export const siteConfig = {
-  name: "Zoho Inventory",
-  shortName: "ZI",
+  name: "Markt 4 Tours and Travel",
+  shortName: "M4T",
   description:
-    "Providing exceptional healthcare services with compassion and expertise since 2008. Our commitment to excellence has made us a trusted healthcare provider in the region.",
+    "Your premier travel partner for unforgettable adventures across Uganda and East Africa. Specializing in wildlife safaris, cultural tours, and adventure travel since 2015.",
 
   // Contact Information
   contact: {
     phone: {
       primary: "+256(0) 762063160",
-      emergency: "+256(0) 756384580",
+      secondary: "+256(0) 756384580",
       whatsapp: "+256(0) 762063160",
     },
     email: {
-      primary: "jb@desishub.com",
-      support: "info@desishub.com",
-      appointments: "jb@desishub.com",
+      primary: "info@markt4tours.com",
+      bookings: "bookings@markt4tours.com",
+      support: "support@markt4tours.com",
     },
     address: {
       street: "P.O.Box 430337",
-      city: "Kasese",
+      city: "Kampala",
+      region: "Central Region",
       country: "Uganda",
       coordinates: {
-        latitude: "0.11111",
-        longitude: "30.11111",
+        latitude: "0.3476",
+        longitude: "32.5825",
       },
     },
   },
 
   // Social Media Links
   social: {
-    facebook: "https://facebook.com/kasesehospital",
-    twitter: "https://twitter.com/kasesehospital",
-    instagram: "https://instagram.com/kasesehospital",
-    linkedin: "https://linkedin.com/company/kasesehospital",
-    youtube: "https://youtube.com/kasesehospital",
+    facebook: "https://facebook.com/markt4tours",
+    twitter: "https://twitter.com/markt4tours",
+    instagram: "https://instagram.com/markt4tours",
+    linkedin: "https://linkedin.com/company/markt4tours",
+    youtube: "https://youtube.com/markt4tours",
+    tripadvisor: "https://tripadvisor.com/markt4tours",
   },
 
   // Working Hours
   workingHours: {
-    status: "24/7 All Week Days",
-    emergency: "24/7 Emergency Services",
-    outpatient: "Monday - Saturday: 8:00 AM - 5:00 PM",
-    pharmacy: "24/7 Pharmacy Services",
-    laboratory: "24/7 Laboratory Services",
+    status: "Monday - Sunday: 7:00 AM - 8:00 PM",
+    emergency: "24/7 Emergency Travel Support",
+    office: "Monday - Friday: 8:00 AM - 6:00 PM",
+    weekend: "Saturday - Sunday: 9:00 AM - 5:00 PM",
+    holidays: "Available on holidays for urgent bookings",
   },
 
   // Company Meta Information
   meta: {
-    foundedYear: 2008,
-    license: "Licensed by Uganda Medical and Dental Practitioners Council",
-    accreditation: "Internationally Accredited Healthcare Facility",
+    foundedYear: 2015,
+    license: "Licensed by Uganda Tourism Board",
+    accreditation: "Certified Tour Operator & Travel Agency",
+    certifications: [
+      "Uganda Tourism Board Licensed",
+      "IATA Registered Travel Agent",
+      "Uganda Association of Tour Operators Member",
+    ],
     values: [
       {
+        title: "Adventure",
+        description: "Creating thrilling and memorable travel experiences",
+      },
+      {
+        title: "Authenticity",
+        description: "Showcasing genuine local cultures and traditions",
+      },
+      {
+        title: "Sustainability",
+        description: "Promoting responsible and eco-friendly tourism",
+      },
+      {
         title: "Excellence",
-        description: "Committed to providing the highest quality healthcare",
-      },
-      {
-        title: "Compassion",
-        description: "Treating every patient with care and empathy",
-      },
-      {
-        title: "Innovation",
-        description: "Embracing modern medical technologies and practices",
+        description:
+          "Delivering exceptional service and unforgettable journeys",
       },
     ],
   },
 
   // Service Categories
   services: {
-    emergency: [
-      "24/7 Emergency Care",
-      "Ambulance Services",
-      "Trauma Care",
-      "Critical Care",
+    safaris: [
+      "Wildlife Safaris",
+      "Gorilla Trekking",
+      "Chimpanzee Tracking",
+      "Bird Watching Tours",
+      "Photography Safaris",
     ],
-    specialties: [
-      "Obstetrics & Gynecology",
-      "Surgery Department",
-      "Medical Department",
-      "Laboratory Department",
-      "Imaging Department",
-      "Pediatrics Department",
-      "Outpatient Department",
+    cultural: [
+      "Cultural Village Tours",
+      "Traditional Craft Workshops",
+      "Local Community Visits",
+      "Historical Site Tours",
+      "Festival & Event Tours",
     ],
-    supportServices: [
-      "Pharmacy",
-      "Laboratory",
-      "Radiology",
-      "Physical Therapy",
-      "Nutritional Counseling",
+    adventure: [
+      "Mountain Climbing",
+      "White Water Rafting",
+      "Hiking & Trekking",
+      "Cycling Tours",
+      "Zip Lining",
+    ],
+    destinations: [
+      "Bwindi Impenetrable National Park",
+      "Queen Elizabeth National Park",
+      "Murchison Falls National Park",
+      "Lake Mburo National Park",
+      "Kibale Forest National Park",
+      "Mount Elgon National Park",
+      "Semuliki National Park",
+    ],
+    specialPackages: [
+      "Honeymoon Packages",
+      "Family Adventure Tours",
+      "Solo Traveler Packages",
+      "Group Tours",
+      "Custom Itineraries",
     ],
   },
 
   // SEO and Metadata
   seo: {
-    title: "Kasese Hospital - Excellence in Healthcare",
+    title: "Markt 4 Tours and Travel - Uganda Safari & Adventure Tours",
     description:
-      "Leading healthcare provider in Kasese offering comprehensive medical services, emergency care, and specialized treatments.",
+      "Discover Uganda's wilderness with Markt 4 Tours and Travel. Expert-guided safaris, gorilla trekking, cultural tours, and adventure experiences across East Africa.",
     keywords: [
-      "hospital",
-      "healthcare",
-      "medical services",
-      "emergency care",
-      "Kasese",
-      "Uganda",
-      "doctors",
-      "specialists",
+      "Uganda tours",
+      "safari tours",
+      "gorilla trekking",
+      "wildlife safari",
+      "East Africa travel",
+      "adventure tours",
+      "cultural tours",
+      "Uganda travel agency",
+      "tour operator",
+      "travel Uganda",
     ],
-    ogImage: "https://kasesehospital.org/og-image.jpg",
+    ogImage: "https://markt4tours.com/og-image.jpg",
   },
 
   // Legal Information
   legal: {
-    name: "Kasese Hospital Ltd",
-    registration: "UG123456789",
+    name: "Markt 4 Tours and Travel Ltd",
+    registration: "UG987654321",
+    license: "UTB/TT/123456",
     privacyPolicy: "/privacy-policy",
     terms: "/terms-and-conditions",
     accessibility: "/accessibility",
+    cancellationPolicy: "/cancellation-policy",
   },
 
-  // Appointment Types
-  appointmentTypes: [
+  // Tour Package Types
+  packageTypes: [
     {
-      id: "general",
-      name: "General Consultation",
-      duration: "30 minutes",
+      id: "day-trip",
+      name: "Day Trip",
+      duration: "1 day",
+      description: "Perfect for short adventures and local experiences",
     },
     {
-      id: "specialist",
-      name: "Specialist Consultation",
-      duration: "45 minutes",
+      id: "weekend",
+      name: "Weekend Getaway",
+      duration: "2-3 days",
+      description: "Short breaks for busy schedules",
     },
     {
-      id: "followup",
-      name: "Follow-up Visit",
-      duration: "20 minutes",
+      id: "short-safari",
+      name: "Short Safari",
+      duration: "4-6 days",
+      description: "Compact wildlife experiences",
+    },
+    {
+      id: "classic-safari",
+      name: "Classic Safari",
+      duration: "7-10 days",
+      description: "Comprehensive wildlife and cultural experiences",
+    },
+    {
+      id: "extended-tour",
+      name: "Extended Tour",
+      duration: "11+ days",
+      description: "In-depth exploration of multiple destinations",
     },
   ],
 
-  // Insurance and Payment
-  insurance: {
-    accepted: [
-      "National Health Insurance",
-      "Private Insurance Companies",
-      "Corporate Medical Schemes",
+  // Payment and Booking
+  booking: {
+    paymentMethods: [
+      "Credit Card",
+      "Bank Transfer",
+      "Mobile Money",
+      "PayPal",
+      "Western Union",
     ],
-    paymentMethods: ["Cash", "Credit Card", "Mobile Money", "Insurance"],
+    currencies: ["USD", "EUR", "GBP", "UGX"],
+    bookingPolicy: "50% deposit required, balance due 30 days before travel",
+    cancellationPolicy: "Free cancellation up to 14 days before travel",
+  },
+
+  // Seasonal Information
+  seasons: {
+    dry: {
+      name: "Dry Season",
+      months: "June-September, December-February",
+      description: "Best for wildlife viewing and trekking",
+    },
+    wet: {
+      name: "Wet Season",
+      months: "March-May, October-November",
+      description: "Great for bird watching and lush landscapes",
+    },
   },
 };
 
@@ -154,9 +218,9 @@ export const getContactInfo = () => {
   const { contact } = siteConfig;
   return {
     mainPhone: contact.phone.primary,
-    emergency: contact.phone.emergency,
+    whatsapp: contact.phone.whatsapp,
     email: contact.email.primary,
-    fullAddress: `${contact.address.street}, ${contact.address.city}, ${contact.address.country}`,
+    fullAddress: `${contact.address.street}, ${contact.address.city}, ${contact.address.region}, ${contact.address.country}`,
   };
 };
 
@@ -178,4 +242,21 @@ export const getSEOData = (pageName?: string) => {
     keywords: siteConfig.seo.keywords.join(", "),
     ogImage: siteConfig.seo.ogImage,
   };
+};
+
+// Helper function to get tour packages by type
+export const getPackagesByType = (type: string) => {
+  return siteConfig.packageTypes.find((pkg) => pkg.id === type);
+};
+
+// Helper function to get services by category
+export const getServicesByCategory = (
+  category: keyof typeof siteConfig.services
+) => {
+  return siteConfig.services[category] || [];
+};
+
+// Helper function to get seasonal information
+export const getSeasonalInfo = () => {
+  return siteConfig.seasons;
 };

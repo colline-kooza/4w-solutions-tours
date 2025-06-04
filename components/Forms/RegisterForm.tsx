@@ -53,20 +53,20 @@ export default function RegisterForm() {
       timezone: country?.timezone,
     };
     try {
-      const res = await createUser(data, orgData);
-      if (res.status === 409) {
-        setLoading(false);
-        setEmailErr(res.error);
-      } else if (res.status === 200) {
-        setLoading(false);
-        toast.success("Account Created successfully", {
-          description: "Your account has been create, Pending Verification",
-        });
-        router.push(`/verify/${res.data?.id}?email=${res.data?.email}`);
-      } else {
-        setLoading(false);
-        toast.error("Something went wrong");
-      }
+      // const res = await createUser(data, orgData);
+      // if (res.status === 409) {
+      //   setLoading(false);
+      //   setEmailErr(res.error);
+      // } else if (res.status === 200) {
+      //   setLoading(false);
+      //   toast.success("Account Created successfully", {
+      //     description: "Your account has been create, Pending Verification",
+      //   });
+      //   router.push(`/verify/${res.data?.id}?email=${res.data?.email}`);
+      // } else {
+      //   setLoading(false);
+      //   toast.error("Something went wrong");
+      // }
     } catch (error) {
       setLoading(false);
       console.error("Network Error:", error);
@@ -80,7 +80,7 @@ export default function RegisterForm() {
           <div className="grid gap-2 mt-10 md:mt-0">
             <h1 className="text-3xl font-bold">Create an account</h1>
             <p className="text-muted-foreground text-sm">
-              Create your <span className="text-rose-600">Inventory Pro</span>{" "}
+              Create your <span className="text-[#34e0a1]">Inventory Pro</span>{" "}
               Account today to get started
             </p>
           </div>
@@ -173,7 +173,7 @@ export default function RegisterForm() {
               Already Registered ?{" "}
               <Link
                 href="/login"
-                className="font-semibold leading-6 text-rose-600 hover:text-rose-500"
+                className="font-semibold leading-6 text-[#34e0a1] hover:text-rose-500"
               >
                 Login
               </Link>

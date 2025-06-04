@@ -15,7 +15,7 @@ import { Blog } from "@prisma/client";
 import SortableColumn from "@/components/DataTableColumns/SortableColumn";
 import ActionColumn from "@/components/DataTableColumns/ActionColumn";
 import Link from "next/link";
-import { ExternalLink, Eye, Mail } from "lucide-react";
+import { ExternalLink, Eye } from "lucide-react";
 import ImageColumn from "@/components/DataTableColumns/ImageColumn";
 import { BriefBlog } from "@/actions/blogs";
 

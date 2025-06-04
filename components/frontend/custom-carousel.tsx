@@ -4,17 +4,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const carouselItems = [
   {
-    image: "/images/slide-1.jpg",
+    image: "https://media.istockphoto.com/id/1324485884/photo/cute-lion-family.jpg?s=612x612&w=0&k=20&c=QqRN63XYju8cNbmIoQZaLVoPxGg6g2d7vFfq4ylBY5E=",
     title: "Effortless Inventory Tracking,",
     subtitle: "Real-time Stock Updates at Your Fingertips",
   },
   {
-    image: "/images/slide-2.jpg",
+    image: "https://media.istockphoto.com/id/1964108383/photo/photographer-at-safari.jpg?s=612x612&w=0&k=20&c=5mP5D3XijJqmIPfwOtRLHAlZXsA8ygOLsitdSRFqCjE=",
     title: "Smart Reordering,",
     subtitle: "Never Run Out of Essential Items Again",
   },
   {
-    image: "/images/slide-3.jpg",
+    image: "https://media.istockphoto.com/id/1255754954/video/school-of-fish-sharks-swim-in-a-circle.jpg?s=640x640&k=20&c=TW7xOAOrYhiRBNadIvEe-gAiIbvg9zXBNlJVx7KS4DI=",
     title: "Powerful Analytics,",
     subtitle: "Make Data-Driven Inventory Decisions",
   },

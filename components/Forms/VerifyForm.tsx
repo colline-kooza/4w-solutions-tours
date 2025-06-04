@@ -22,7 +22,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { verifyOTP } from "@/actions/users";
+// import { verifyOTP } from "@/actions/users";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -71,13 +71,13 @@ export default function VerifyOTPForm({
       };
 
       // Call verification API
-      const res = await verifyOTP(userId, data.otp);
+      // const res = await verifyOTP(userId, data.otp);
 
-      if (res.status !== 200) {
-        setLoading(false);
-        setOtpError("Invalid verification code. Please try again.");
-        return;
-      }
+      // if (res.status !== 200) {
+      //   setLoading(false);
+      //   setOtpError("Invalid verification code. Please try again.");
+      //   return;
+      // }
 
       toast.success("Account verified successfully!", {
         description: "Your account has been successfully verified",

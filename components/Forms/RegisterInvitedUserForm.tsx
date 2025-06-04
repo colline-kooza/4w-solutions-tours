@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import TextInput from "../FormInputs/TextInput";
 import PasswordInput from "../FormInputs/PasswordInput";
 import SubmitButton from "../FormInputs/SubmitButton";
-import { createInvitedUser, createUser } from "@/actions/users";
+// import { createInvitedUser, createUser } from "@/actions/users";
 import CustomCarousel from "../frontend/custom-carousel";
 
 import FormSelectInput from "../FormInputs/FormSelectInput";
@@ -54,20 +54,20 @@ export default function RegisterInvitedUserForm({
     data.image =
       "https://utfs.io/f/59b606d1-9148-4f50-ae1c-e9d02322e834-2558r.png";
     try {
-      const res = await createInvitedUser(data);
-      if (res.status === 409) {
-        setLoading(false);
-        setEmailErr(res.error);
-      } else if (res.status === 200) {
-        setLoading(false);
-        toast.success("Account Created successfully", {
-          description: "Your account has been created, Please Login",
-        });
-        router.push("/login");
-      } else {
-        setLoading(false);
-        toast.error("Something went wrong");
-      }
+      // const res = await createInvitedUser(data);
+      // if (res.status === 409) {
+      //   setLoading(false);
+      //   setEmailErr(res.error);
+      // } else if (res.status === 200) {
+      //   setLoading(false);
+      //   toast.success("Account Created successfully", {
+      //     description: "Your account has been created, Please Login",
+      //   });
+      //   router.push("/login");
+      // } else {
+      //   setLoading(false);
+      //   toast.error("Something went wrong");
+      // }
     } catch (error) {
       setLoading(false);
       console.error("Network Error:", error);
@@ -157,7 +157,7 @@ export default function RegisterInvitedUserForm({
               Already Registered ?{" "}
               <Link
                 href="/login"
-                className="font-semibold leading-6 text-rose-600 hover:text-rose-500"
+                className="font-semibold leading-6 text-[#34e0a1] hover:text-rose-500"
               >
                 Login
               </Link>

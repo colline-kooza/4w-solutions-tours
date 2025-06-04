@@ -15,7 +15,7 @@ import PasswordInput from "../FormInputs/PasswordInput";
 import SubmitButton from "../FormInputs/SubmitButton";
 import Logo from "../global/Logo";
 import CustomCarousel from "../frontend/custom-carousel";
-import { resetUserPassword } from "@/actions/users";
+// import { resetUserPassword } from "@/actions/users";
 export type ResetProps = {
   cPassword: string;
   password: string;
@@ -42,15 +42,15 @@ export default function ResetPasswordForm() {
     }
     console.log(email, token, data.password);
     try {
-      const res = await resetUserPassword(email, token, data.password);
-      if (res?.status === 404) {
-        setPassErr(res?.error ?? "");
-        setLoading(false);
-        return;
-      }
-      setLoading(false);
-      toast.success("Password reset successfully");
-      router.push("/login");
+      // const res = await resetUserPassword(email, token, data.password);
+      // if (res?.status === 404) {
+      //   setPassErr(res?.error ?? "");
+      //   setLoading(false);
+      //   return;
+      // }
+      // setLoading(false);
+      // toast.success("Password reset successfully");
+      // router.push("/login");
     } catch (error) {
       setLoading(false);
       console.error("Network Error:", error);
@@ -105,7 +105,7 @@ export default function ResetPasswordForm() {
               Already Registered? {""}
               <Link
                 href="/login"
-                className="font-semibold leading-6 text-rose-600 hover:text-rose-500"
+                className="font-semibold leading-6 text-[#34e0a1] hover:text-rose-500"
               >
                 Login
               </Link>

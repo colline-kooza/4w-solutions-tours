@@ -126,21 +126,21 @@ const topProducts = [
 ];
 const bigCards = [
   {
-    title: "Total Sales",
+    title: "Total Bookings",
     value: "$120,784.02",
     change: "+12.3%",
     trend: "up",
     icon: ShoppingCart,
   },
   {
-    title: "Total Orders",
+    title: "Total Destinations",
     value: "28,834",
     change: "+20.1%",
     trend: "up",
     icon: ShoppingBag,
   },
   {
-    title: "Total Products",
+    title: "Total Tours",
     value: "1,429",
     change: "+8.3%",
     trend: "up",
@@ -213,7 +213,7 @@ export default function DashboardMain() {
           {/* Recent Activity Table */}
           <Card className="col-span-8">
             <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
+              <CardTitle>Recent Booking Details</CardTitle>
               <CardDescription>Latest customer transactions</CardDescription>
             </CardHeader>
             <CardContent>
@@ -281,8 +281,8 @@ export default function DashboardMain() {
           {/* Top Selling Products */}
           <Card className="col-span-4">
             <CardHeader>
-              <CardTitle>Top Selling Products</CardTitle>
-              <CardDescription>Best performing products</CardDescription>
+              <CardTitle>Top Selling Tours</CardTitle>
+              <CardDescription>Best performing Tours</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">

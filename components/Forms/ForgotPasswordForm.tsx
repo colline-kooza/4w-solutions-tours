@@ -11,7 +11,7 @@ import TextInput from "../FormInputs/TextInput";
 import SubmitButton from "../FormInputs/SubmitButton";
 import Logo from "../global/Logo";
 import CustomCarousel from "../frontend/custom-carousel";
-import { sendResetLink } from "@/actions/users";
+// import { sendResetLink } from "@/actions/users";
 import {
   Card,
   CardContent,
@@ -37,7 +37,7 @@ export default function ForgotPasswordForm() {
     setIsResending(true);
 
     // Simulate API call
-    await sendResetLink(email);
+    // await sendResetLink(email);
 
     // Start cooldown timer (60 seconds)
     setResendTimer(60);
@@ -56,12 +56,12 @@ export default function ForgotPasswordForm() {
     try {
       setLoading(true);
       console.log("Data:", data);
-      const res = await sendResetLink(data.email);
-      if (res.status === 404) {
-        setLoading(false);
-        setPassErr(res?.error ?? "");
-        return;
-      }
+      // const res = await sendResetLink(data.email);
+      // if (res.status === 404) {
+      //   setLoading(false);
+      //   setPassErr(res?.error ?? "");
+      //   return;
+      // }
       toast.success("Reset Instructions sent, Check your email");
       setLoading(false);
       setEmail(data.email);
@@ -160,7 +160,7 @@ export default function ForgotPasswordForm() {
                   Remember password ?{" "}
                   <Link
                     href="/login"
-                    className="font-semibold leading-6 text-rose-600 hover:text-rose-500"
+                    className="font-semibold leading-6 text-[#34e0a1] hover:text-rose-500"
                   >
                     Login
                   </Link>
